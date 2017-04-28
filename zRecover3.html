@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>画图</title>
+		<style type="text/css">
+			*{margin:0;padding: 0;}
+			html,body{width:100%;height: 100%;
+				overflow: hidden;
+			background: #000000}
+			canvas{
+				margin:0;padding: 0;
+			}
+			#threeContainer{
+				width:100%;height: 100%
+			}
+			#threeContainer canvas{
+				display: block;
+				margin:100px auto 0 auto;
+			}
+		</style>
+		<script type="text/javascript" src="example/jquery-1.11.2.min.js"></script>
+		<script type="text/javascript" src="example/three2.js"></script>
+		<script type="text/javascript" src="example/Stats.js"></script>
+		<script type="text/javascript" src="example/dat.gui.js"></script>
+		<script type="text/javascript" src="example/CanvasRenderer.js"></script>
+		<script type="text/javascript" src="example/Projector.js"></script>
+
+	</head>
+	<body>
+		<div id="threeContainer"></div>
+		<script type="text/javascript">
+			var w=400;
+			var h=300;
+			drawScene(window.innerWidth/4,window.innerHeight/3,0x02030b,"threeContainer");
+			//drawScene(600,400,0x000000,"threeContainer",false);
+
+
+			function drawScene(w,h,bgColor,parentID,center){
+				var scene=new THREE.Scene();
+				var camera=new THREE.PerspectiveCamera(45,w/h,0.1,1000);
+				var renderer=new THREE.WebGLRenderer();
+				renderer.setClearColor(bgColor);
+				renderer.setSize(w,h);
+				camera.position.x=0;
+				camera.position.y=0;
+				camera.position.z=230;
+				camera.lookAt(scene.position);
+				document.getElementById(parentID).appendChild(renderer.domElement)
+				renderer.shadowMapEnabled=true;
+				//var axes=new THREE.AxisHelper(20);
+				//scene.add(axes);
+				var spotLight=new THREE.SpotLight(0xffffff);
+				spotLight.position.set(-40,60,-10);
+				scene.add(spotLight);
+				var ball=center==undefined?true:center;
+
+				if(ball==true){
+					var material = new THREE.MeshNormalMaterial();
+					material.shading=THREE.FlatShading;
+					material.shading=THREE.SmoothShading;
+					var geom = new THREE.SphereGeometry(4, 20, 20);
+					var mesh = new THREE.Mesh(geom, material);
+					scene.add(mesh);
+
+					/*var circleGemotry=new THREE.CircleGeometry(30,38, 0, Math.PI*2);
+					var circleMaterial=new THREE.MeshBasicMaterial({color:0xffffff,wireframe:false});
+					var circle=new THREE.Mesh(circleGemotry,circleMaterial);
+					circle.castShadow=true;
+					scene.add(circle);*/
+
+				}
+
+				/*var plane=new THREE.Mesh(planeGeometry,planeMaterial);
+				 plane.rotation.x=Math.PI*0;
+				 plane.position.set(15,0,-10);
+				 scene.add(plane)
+				 plane.receiveShadow=true;*/
+				var texture1 = THREE.ImageUtils.loadTexture("assets/textures/particles/star3.png");
+				var texture2 = THREE.ImageUtils.loadTexture("assets/textures/particles/star2.png");
+				var texture3 = THREE.ImageUtils.loadTexture("assets/textures/particles/star3.png");
+				var texture4 = THREE.ImageUtils.loadTexture("assets/textures/particles/star2.png");
+				var  getTexture2=function(){
+					var canvas=document.createElement("canvas");
+					canvas.width=100;
+					canvas.height=100;
+					var ctx=canvas.getContext("2d");
+					ctx.beginPath();
+					ctx.fillStyle="red";
+					ctx.arc(50,50,40,0,Math.PI*2,true);;
+					ctx.strokeStyle="white";
+					ctx.stroke();
+					ctx.closePath();
+					// the body
+/*
+
+					ctx.fillStyle = "orange";
+					ctx.beginPath();
+					ctx.moveTo(16,15);
+					ctx.quadraticCurveTo(16,0,24,0);
+					ctx.quadraticCurveTo(32,0,32,15);
+					ctx.lineTo(16,15);
+					ctx.fill();
+					// the body
+					ctx.fillStyle="red";
+					ctx.beginPath();
+					ctx.arc(24,24,5,0,Math.PI*2,true);
+					ctx.fill();
+					ctx.closePath();
+*/
+
+
+
+					var texture = new THREE.Texture(canvas);
+					texture.needsUpdate = true;
+					return texture;
+				}
+				var geom2= new THREE.Geometry();
+				var material2 = new THREE.PointCloudMaterial({
+					size: 100,
+					transparent: true,
+					opacity:1,
+					map: getTexture2(),
+					blending: THREE.AdditiveBlending,
+					depthWrite: false,
+					sizeAttenuation: true,
+					color: 0xffffff
+				});
+				var range = 1400;
+				for (var i = 0; i < 1; i++) {
+					var particle2 = new THREE.Vector3(0,0,10);
+					geom2.vertices.push(particle2);
+				}
+				var cloud2 = new THREE.PointCloud(geom2, material2);
+				cloud2.name = "particles2";
+				cloud2.sortParticles = true; //移动需要加
+			 	cloud2.rotation.x=Math.PI*0.1;
+				cloud2.rotation.z=Math.PI*0.1;
+				scene.add(cloud2);
+
+				createParticles2(0x04c6e3,1,texture2)
+				createParticles2(0x0864fd,1,texture3)
+				createParticles2(0x37cdd6,1,texture2)
+				createParticles2(0xffffff,1,texture4)
+				function createParticles2(color,opacity,texture) {
+					var geom = new THREE.Geometry();
+					var material = new THREE.PointCloudMaterial({size:Math.random()*3+3, vertexColors: true, color: 0xffffff});
+					var material = new THREE.PointCloudMaterial({
+						size: 4,
+						transparent: true,
+						opacity:opacity,
+						map: texture,
+						blending: THREE.AdditiveBlending,
+						depthWrite: false,
+						sizeAttenuation: true,
+						color: color
+					});
+					var range = 1400;
+					for (var i = 0; i < 15000; i++) {
+						var particle = new THREE.Vector3(
+								Math.random() *w - w / 2,
+								Math.random() *h  - h / 2,
+								Math.random() * range - range / 2);
+						particle.initZ=particle.z+(Math.random() * 50 - 50 / 2);
+						particle.velocityY = 0.1 + Math.random() / 5;
+						particle.velocityX = (Math.random() - 0.5) / 3;
+						particle.velocityZ = (Math.random() +8) / 3;
+						particle.initSpeed = particle.velocityZ;
+						var color = new THREE.Color(0x00ff00);
+						color.setHSL(color.getHSL().h, color.getHSL().s, Math.random() * color.getHSL().l);
+						geom.colors.push(color);
+						geom.vertices.push(particle);
+					}
+					var cloud = new THREE.PointCloud(geom, material);
+					cloud.name = "particles";
+					cloud.sortParticles = true; //移动需要加
+
+					scene.add(cloud);
+				}
+
+
+
+
+				var step=0.01;
+				var h=0;
+				var speed=0.2;
+				var scale=0.2;
+				var roll=0;
+				function renderScene(){
+					scene.children.forEach(function (child) {
+						if (child instanceof THREE.PointCloud) {
+							var vertices = child.geometry.vertices;
+							vertices.forEach(function (v) {
+								if(v.velocityZ){
+									v.z = v.z + (v.velocityZ);
+									v.velocityZ+=0.02;
+									max=v.initZ+(Math.random()*100+100);
+									if (v.z>max){
+										v.z=v.initZ;
+										v.velocityZ = v.initSpeed;
+									}
+								}
+							});
+						}
+					});
+					scale+=0.1;
+					if(scale>1.3){
+						scale*=-1;
+					}
+					//cloud2.scale.x+=0.2;
+					//cloud2.scale.z+=scale;
+					if(ball){
+						mesh.rotation.y+=step;
+						h+=speed;
+						if(h>10||h<-10){
+							speed*=-1;
+						}
+						roll+=0.04;
+						mesh.position.x=20+(20*Math.cos(roll));   //x轴的一段运动
+						mesh.position.z=20+20*Math.sin(roll); //不加abs是整个圆环运动 cos 高-低-高  sin low-hign-low
+						//mesh.position.x=Math.sin()*10;
+						//mesh.position.y=h;
+						//mesh.position.z-=0.01;
+					}
+
+					requestAnimationFrame(renderScene);
+					renderer.render(scene,camera)
+				}
+
+				renderScene();
+				function ResizeScreen(){
+					camera.aspect=window.innerWidth/window.innerHeight;
+					camera.updateProjectionMatrix();
+					renderer.setSize(w,h);
+					//renderer.setSize(window.innerWidth,window.innerHeight);
+					renderer.render(scene,camera)
+				}
+				window.addEventListener('resize',ResizeScreen,false)
+			}
+
+		</script>
+	</body>
+</html>
