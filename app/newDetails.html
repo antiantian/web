@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+	<meta name="wap-font-scale" content="no">
+	<meta name="description" content="钱趣多（qianquduo.com）让理财成为一种乐趣，100元起投，0手续费，随存随取，项目来自国企应收账款，大型保理公司100%本息保障。钱趣多-让理财成为一种乐趣！">
+	<meta name="keywords" content="活期理财、互联网金融平台、P2P理财、互联网理财、网上理财、网络理财、网络投资、债权投资、国企应收账款">
+	<title>钱趣多-趣赚钱-趣生活</title>
+	<link rel="apple-touch-icon-precomposed" href="static/common/img/ico/favicon.png">
+	<link rel="shortcut icon" href="static/common/img/ico/favicon.png">
+	<link rel="stylesheet" type="text/css" href="static/common/style/reset.css">
+	<link rel="stylesheet" type="text/css" href="static/common/style/style.css">
+	<link rel="stylesheet" type="text/css" href="static/common/style/version.css">
+</head>
+<body>
+    <div id="app">
+		<div class="middleContent   fixBottom">
+	        <header class="mid_con" >
+			    <h1 class="chuangwei_title">{{dataNotice.title}}</h1>
+			    <div class="chuangwei_info">  
+			        <span>{{dataNotice.contentAuthor?dataNotice.contentAuthor:'星火财经'}}</span>
+			        <span class="times">{{transTime(dataNotice.createDate)}}</span>
+			    </div>
+			</header>
+			<article>
+			    <div  class="mid_con borderB15" >
+				    <div id="chuangwei_content" style="height:auto !important; max-height:auto !important;">
+				       <div id="chuangwei_content_inner">
+				             {{dataNotice.content}}    
+				       </div>
+				    </div>
+			    </div>
+			    <div class="mid_con borderB15">
+	               <div class="commonTitle"><p>相关推荐</p></div>
+	               <div class="relative_con" id="relative_con">
+	                  <div v-for="item in relativeData" class="clearfix box" @click="itemDetails(item.resourceId)">
+	                     <div class="right"  v-if="item.coverImg">
+	                        <img class="radius13" :src="item.coverImg" />
+	                     </div>
+	                     <div class="left">
+	                        <p class="titles line-clamp-3">{{item.title}}</p>
+	                        <p class="messages">
+	                          <span class="times">{{fromTime(item.createTime)}} </span>
+	                          <span class="command">{{item.comments?item.comments:0}}</span>
+	                        </p>
+	                     </div>  
+	                  </div>
+	               </div>
+			    </div>
+			    <div class="mid_con">
+	               <div class="commonTitle"><p>热门评论</p><span class="more" @click="moreCommands(dataNotice.resourceId)">更多</span></div>
+	               <div class="command_con" id="command_con">
+	               	  <div class="nocomand" v-if="(!commandData||commandData.length<=0)">暂无评论内容</div>
+	                  <div v-for="item in commandData" class="clearfix box">
+	                     <div class="left">
+	                        <img class="radius50" :src="item.src?item.src:'static/common/images/initHead.png'"/>
+	                     </div>
+	                     <div class="right">
+	                     	<div class="messages">
+	                           <p class="user">{{item.customerAccount}}</p>
+	                           <p class="count" @click="thumbsUp({nowId:dataNotice.resourceId,id:item.resourceId,customerId:item.customerAccount})">{{item.likes}}</p>
+	                           <p class="times">{{fromTime(item.createTime)}}</p>
+	                        </div>
+	                        <p class="command">{{item.comment}}</p>
+	                     </div>  
+	                  </div>
+	               </div>
+			    </div>
+			    
+			</article>
+		 </div>
+
+	</div>
+</body>
+<script type="text/javascript" src="static/common/js/jquery-1.11.2.min.js"></script>
+<script type="text/javascript"  src="static/js/moment.js"></script>
+<script type="text/javascript" src="static/js/vue.js"></script>
+<script type="text/javascript" src="static/js/mobiles.js"></script>
+<script type="text/javascript" src="static/components/commoncomp.js"></script>
+<script type="text/javascript"  src="static/js/news.js"></script>
+<script type="text/javascript" src="//f.moblink.mob.com/v2_0_1/moblink.js?appkey=238efa3b77901"></script>
+<script type="text/javascript">
+	MobLink([
+    {
+        el: "",
+        path: "demo/a",
+        params: {
+            key1: "value1",
+            key2: "value2",
+        }
+    }
+]);
+</script>
+</html>
