@@ -14,42 +14,12 @@
 	</head>
 	<body>
 	   <div class="mui-content-padded" style="text-align: center;">
-			<button id="alertBtn" type="button" class="zbox-btn zbox-btn-blue zbox-btn-outlined">警告消息框</button>
-			<button id="confirmBtn" type="button" class="zbox-btn zbox-btn-blue zbox-btn-outlined">确认消息框</button>
-			<button id="toastBtn" type="button" class="zbox-btn zbox-btn-blue zbox-btn-outlined">自动消失提示框</button>
-			<button id="load" type="button" class="zbox-btn zbox-btn-blue zbox-btn-outlined">加载中</button>
-			<div id="info" onclick="$.DialogByZ.Close()">关闭加载</div>
+			<button id="alertBtn" type="button" class="zbox-btn zbox-btn-blue zbox-btn-outlined"><a href='dialog.html'>弹出框插件</a></button>
+			<button id="confirmBtn" type="button" class="zbox-btn zbox-btn-blue zbox-btn-outlined"><a href='Minesweeper.html'>扫雷</a></button>
+			<button id="toastBtn" type="button" class="zbox-btn zbox-btn-blue zbox-btn-outlined"><a href='zRecover3.html'>星空</a></button>
+			<button id="load" type="button" class="zbox-btn zbox-btn-blue zbox-btn-outlined"><a href='videoDetail.html'>app交互</a></button>
+ 
 		</div>
 	</body>
-	<script>
-	///
-	   $("#alertBtn").click(function(){
-           $.DialogByZ.Alert({Title: "提示", Content: "您的请求失败",BtnL:"确定",FunL:alerts}) 
-	   })
-	   $("#confirmBtn").click(function(){
-           $.DialogByZ.Confirm({Title: "", Content: "投资前需开通第三方存管账户</br>确保资金安全",FunL:confirmL,FunR:Immediate})
-	   })
-	   $("#toastBtn").click(function(){
-	      $.DialogByZ.Autofade({Content: "感谢您对我们的支持"})
-	   })
-	   $("#load").click(function(){
-	   	  $.DialogByZ.Loading('image/loading.png') 
-	   })
-	///
-       function confirmL(){
-            	$.DialogByZ.Close();
-           	    $.DialogByZ.Alert({Title: "提示", Content: "您要求稍后开通",BtnL:"确定"})
-       }
-       //
-       function alerts(){
- 
-       	  $.DialogByZ.Close();
-       }
-       function Immediate(){
-       	  //location.href="http://www.baidu.com"
-       	  window.open("http://www.baidu.com")
-       }
-	   
 	
-	</script>
 </html>

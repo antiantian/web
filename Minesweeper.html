@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="qianquduo admin dashboard application">
+    <title>QianQuDuo admin</title>
+    <!--[if lte IE 10]>
+        <script src="https://as.alipayobjects.com/g/component/??console-polyfill/0.2.2/index.js,media-match/2.0.2/media.match.min.js"></script>
+    <![endif]-->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <style type="text/css">
+       html,body,div,p,button{
+       	margin:0;
+       	padding:0;
+       }
+       .clearfix{
+
+       }
+       .clearfix:after{
+       	 display: block;
+       	 content: '';
+       	 height: 0;
+       	 overflow: hidden;
+       	 clear: both;
+       }
+        #main{
+        	position:relative;
+        }
+        #main #boom_Heads{
+        	width: 100%;
+        	padding: 5px 0;
+        	line-height: 1.75;
+        }
+        #main #boom_Heads p{
+        	display: inline-block;
+        	padding:0 8px;
+        }
+        #main #boom_Heads p span{
+        	display: inline-block;
+        	width: 24px;
+        	height: 24px;
+        }
+    	#main div.box{
+    		float: left;
+    		border: 1px solid #dfdfdf;
+    		text-align: center;
+    	}
+    	#main div.clicked{
+    		background-color: #cccccc;
+    		color:green;
+    	}
+    	#main div.boomed{
+           background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAADoUlEQVR4Xu2Z3VHbQBSFP1l6j1NBTAUxFWAqgFQQqCCmAkIFmAowFcRUEFJBSAWQChLeJStztCtGKLbHtnY91mh3hhmPkXb3nnvO/XNEx1fUcfsJAAQGdByBIIGOEyAEwSCBIIGOIxAk0HEChCwQJBAk0HEE9l0CQ+Av8OzLT3sNQAyzCB5T+NqDcQ8GKYxdgrHXACTwADykMInhKYIbgdE1AGTwKIezDCSJQQyXGVy4kMbeMSCG08xo/rHi6T7Qj2EUwS3wI4VTGx8aEWInAMioCD7qpjkMpWt9TuG+YqgMvI7gLIfnDA7rBsZwFpk44EwGPgEoqIoxXh5cuGRsBNMUbmKYRPDZAjXL4JOMBk70Wd9XwBzN4X4OkyYU8AJAYjwk49deFojzHAaW5mKLwBkAv1KjfwEw1Xe5SY/TDGZrH7LgQdcAiMa3kdHnm5XD7wierQTerWDEuf5XAeE+W7BfE6Or7zoFwObtk/IAGZ3DZA7Tmp77CYxzGEfwHxg5nFvPX8rTGRzY9/XeH8UN7TmHu6aB0BkAddrnIM9Jv7r0F2Bo6V1EeGm+B6c9uF7kzRQOEwOcgqdqgeMyBiiu6C+DUS1bbEwMVwAMEniqnF5o1gYwRfalQXDFjVUEXQHf7TNXLqN/ea4TAGxgKqP3S2aKFeXsbxu7pPKClYJYdJSD9t0GyJVXcAJAUqR3s3K4y2BsS9dGF5aMMP3A2BY+zpuixgDYvPzq6dzk634ZxZswQO+mRULwtxpvXg9+KRwkJvhtVAesMPE4NU2Rl+UCAFViivLFSuG9UlyXAJB3jiruOZ7DcFl629SNklTTam/VmS4Y8KbsncPFHGa1tLip3dXn914CbwCwnZziwBtpbIuACqKmxY5XBqjCS+Bn7RAVLRM70Sna4G2Wr9xfvUtjCWiz2HRtH6obq4jJYJqY3n8rEGxNoYzibTkBYFn7m5tafuU8YJVlvumvs50AYMdVYsHSNndTF+7C+y4BKCc1jWr/EiSrfQ1CNPTwulwxoLiknd0vbG/XtcIa37jNXfc8pwDYgKjBpSa3G69dG+9UAlVrEzOoUB2wdvQvu8hd0N55GlzmajsQURZ4HZPVUuWLbXc1FfbW8KyionMJLDlMY7FiqluOxVIT4Ko/fmwsGRcv7AoAF3f1skcAwAusLdo0MKBFzvJy1cAAL7C2aNPAgBY5y8tVAwO8wNqiTQMDWuQsL1cNDPACa4s2DQxokbO8XPUfJgDpQZ2dIigAAAAASUVORK5CYII=");
+           background-size: 100% 100%;
+    		
+    	}
+    	#main div.green{
+    		background-color: green;
+    	}
+    	#main .flag{
+    		 background-color: #ffffff;
+    		 color: ##ffffff;
+    		 background-image:url("data:image/png;base64,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");
+    		 background-size: 100% 100%;
+    	}
+    	#main .result{
+            position: absolute;
+        	width: 100%;
+        	height: 100%;
+        	left: 0;
+        	top:0;
+        	right: 0;
+        	bottom: 0;
+        	background-color:none;
+        	color:#ffffff;
+        	/* Center slide text vertically */
+			display: -webkit-box;
+			display: -ms-flexbox;
+			display: -webkit-flex;
+			display: flex;
+			-webkit-box-pack: center;
+			-ms-flex-pack: center;
+			-webkit-justify-content: center;
+			justify-content: center;
+			-webkit-box-align: center;
+			-ms-flex-align: center;
+			-webkit-align-items: center;
+			align-items: center;
+
+    	}
+		#mian div.endding{
+	      display:none;
+		}
+		.endding{
+			display:none;
+		}
+    	#main .mask{
+    		position: absolute;
+        	width: 100%;
+        	height: 100%;
+        	left: 0;
+        	top:0;
+        	right: 0;
+        	bottom: 0;
+        	background-color:#000000;
+        	opacity: 0.5;
+    	}
+        #main .result.on,.mask.on,.endding.on{
+        	display: block;
+        }
+		#main .result p{ 
+		  display:block;
+	    }
+	    .buttonmiddle{
+	       line-height:2;
+	       font-size: 1em;
+	       border: 1px solid pink;
+	       text-align: center;
+	       display: inline-block;
+	       padding: 2px 1em;
+	       filter:alpha(opacity=100 finishopacity=50 style=1 startx=0,starty=0,finishx=0,finishy=150) progid:DXImageTransform.Microsoft.gradient(startcolorstr=red,endcolorstr=blue,gradientType=0);	
+    -ms-filter:alpha(opacity=100 finishopacity=50 style=1 startx=0,starty=0,finishx=0,finishy=150) progid:DXImageTransform.Microsoft.gradient(startcolorstr=red,endcolorstr=blue,gradientType=0);
+	       background:red; /* 一些不支持背景渐变的浏览器 */  
+		    background:-moz-linear-gradient(top, red, rgba(0, 0, 255, 0.5));  
+		    background:-webkit-gradient(linear, 0 0, 0 bottom, from(#ff0000), to(rgba(0, 0, 255, 0.5)));  
+		    background:-o-linear-gradient(top, red, rgba(0, 0, 255, 0.5)); 
+		    border-radius: 7px;
+	    }
+	    .flagIcon{
+
+	    }
+	    #main .flag.flagIcon.on{
+	        background-color: #666666;
+	    }
+    </style>
+</head>
+<body>
+	
+	<div id="main"></div>
+	<button id="begin">重新开始</button>
+	<button id="showSALL">显示全部</button>
+	<a class="aa">123</a>
+	<a class="bb">456</a>
+	<input type="text" name="xmount" id="xmount" placeholder="x的数量纵向" value="3">
+	<input type="text" name="ymount" id="ymount" placeholder="y的数量横向" value="3">
+</body>
+<script type="text/javascript">
+// $(document).ready(function(){ //jQuery 屏蔽右键
+// $(document).bind("contextmenu",function(e){return false;});});
+// $(document).ready(function() { //jQuery 屏蔽F5
+// $(document).bind("keydown",function(e){e=window.event||e; if(e.keyCode==116){e.keyCode = 0;return  false;} }); });
+// $(document).ready(function() { //jQuery 屏蔽F7
+// $(document).bind("keydown",function(e){e=window.event||e; if(e.keyCode==118){e.keyCode = 0;return  false;} }); });
+// $(document).ready(function() { //jQuery 屏蔽F11
+// $(document).bind("keydown",function(e){e=window.event||e; if(e.keyCode==122){e.keyCode = 0;return  false;} }); });
+// $(document).ready(function() { //jQuery 屏蔽F12
+// $(document).bind("keydown",function(e){e=window.event||e; if(e.keyCode==123){e.keyCode = 0;return  false;} }); });
+    
+$(function(){
+	$("a").each(function(index,item){
+		  if($(item).text()==123){
+		  	//  alert(1)
+		  }
+	})
+	var elementsA = document.getElementsByTagName('a');  
+	for (var i = 0; i < elementsA.length; i++) {  
+	    var id = elementsA[i].id; //取ID  
+	    var classname = elementsA[i].className; //取Name  
+	    var name = elementsA[i].name; //取Name  
+	    var type = elementsA[i].type;  //取Type  
+	    var texts = elementsA[i].innerText;
+	    if(texts==123){
+           // alert(classname)
+	    }
+	}  
+	var x=parseInt(document.getElementById("xmount").value);
+	var y=parseInt(document.getElementById("ymount").value);
+
+	var inites=$("#main").landmine_create({x:x,y:y})	
+	$("#begin").click(function(){
+		 var x=parseInt(document.getElementById("xmount").value);
+	     var y=parseInt(document.getElementById("ymount").value);
+		 // $("#main").html("");  innerhHTML="" 会导致内存泄漏
+		 
+		  //$("#main").empty()  // 事件为删除
+		   inites.level=1
+           inites.init(x,y); 
+           console.log(inites)
+          
+		 //$("#main").landmine_create({x:x,y:y})
+	})
+	$("#showSALL").click(function(){
+        inites.showSALL()
+	})
+})
+
+;(function($,window,document,undefined){
+    //定义构造函数 “plugin插件”
+	var landmine=function(ele, opt){
+		 this.elements=ele;
+		 this.defaults={
+			  x:3,
+			  y:4,
+			  min:null,
+			  preW:22,
+			 };
+		  this.options=$.extend({},this.defaults,opt) ;
+		  this.clicked_amount=0; 
+		  this.touchstart="touchstart";
+          this.touchmove="touchmove";
+          this.touchend="touchend";
+		  this.canclick=false;
+		  this.x=this.options.x,this.y=this.options.y ,this.min=this.options.min;
+		  this.initx=this.options.x;
+		  this.inity=this.options.y;
+		  this.click_amout=this.x*this.y;
+		  this.mine_amout=0;
+          this.level=1;
+		  this.init(this.x,this.y,this.min); 
+		   this.FlagClick();
+		   this.ClickEvent();
+		   return this;
+		}	
+	//定义方法
+	landmine.prototype={
+	        initTouchEvents:function () {
+	　　　　　　var self = this;
+	            if (self.isPC()) {
+	                self.touchstart = "mousedown";
+	                self.touchmove = "mousemove";
+	                self.touchend = "mouseup";
+	            }
+	        },
+	　　　　 isPC:function(){  //判断pc端与移动端
+	           var userAgentInfo = navigator.userAgent;  
+	           var Agents = new Array("Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod");  //判断用户代理头信息
+	           var flag = true;  
+	           for (var v = 0; v < Agents.length; v++) {  
+	               if (userAgentInfo.indexOf(Agents[v]) != -1) { flag = false; break; }  
+	           }  
+	           return flag;   //true为pc端，false为非pc端
+	　　　　 },
+	        restart:function(){
+				var self = this;
+				console.log(self.winning)
+				if(self.winning){
+                    self.level+=1;
+                    self.initx+=1;
+                    self.inity+=1;
+				}else{
+					 // self.level=1;
+				}
+				self.init(self.initx,self.inity);  //重新开始
+                
+				 // self.state=1;// 2 标记小红旗
+		   //        self.losing =false ;
+		   //        self.winning=false ;
+				// this.FlagClick();  回导致事件叠加
+		  //       this.ClickEvent();
+			},
+		    init:function(x,y,min){
+			   var self = this;
+			    self.state=1;// 2 标记小红旗
+               self.losing =false ;
+               self.winning=false ;
+               self.initx=x;
+               self.inity=y;
+               self.click_amout =x*y;
+			   // self.elements.unbind ("click")
+				self.elements.find("div").remove();
+				self.elements.empty()
+			   if(!min){
+					min=Math.floor(Math.random(x*y/2)+x*y/4)
+				}
+				this.options.min=min;
+				this.mine_amout=min;
+	            mineArray = new Array(x)
+	            $.each(mineArray, function(key) {
+			        mineArray[key] = new Array(y);
+			    })
+			    for(var i = 0; i < x; i ++) {
+			        for(var j = 0; j < y; j ++) {
+			            mineArray[i][j] = 0;
+			        }
+			    }
+
+			    while(min > 0) {  // 
+			        var i = Math.floor(Math.random() * x);
+			        var j = Math.floor(Math.random() * y);
+			        if(mineArray[i][j] != -1) {
+			            mineArray[i][j] = -1;
+			            min --;                                                                                                                                                                                              
+			        }
+			    }
+
+
+			    for(var i = 0; i < x; i ++) {  //
+			        for(var j = 0; j < y; j ++) {
+			            if(mineArray[i][j] != -1) {
+	                        if(i > 0 && j>0 && mineArray[i-1][j-1] == -1) mineArray[i][j] ++;
+	                        if(i > 0 && mineArray[i - 1][j] == -1) mineArray[i][j] ++;
+	                        if(i > 0 && j< y-1 && mineArray[i - 1][j+1] == -1) mineArray[i][j] ++;
+
+	                        if(i < x-1 && j>0 && mineArray[i+1][j-1] == -1) mineArray[i][j] ++;
+	                        if(i < x-1 && mineArray[i + 1][j] == -1) mineArray[i][j] ++;
+	                        if(i < x-1 && j< y-1 && mineArray[i + 1][j+1] == -1) mineArray[i][j] ++;
+
+	                        if(j > 0 && mineArray[i][j - 1] == -1) mineArray[i][j] ++;
+	                        if(j < y-1 && mineArray[i][j + 1] == -1) mineArray[i][j] ++;
+			            }
+			        }
+			    }
+			    var block="";
+			    block+="<div id='boom_block' class='clearfix'>";
+			    for(var i = 0; i < x; i ++) {  // 
+			        for(var j = 0; j < y; j ++) {
+			          var id="box"+"_"+i+"_"+j+"_"+mineArray[i][j];
+			          //var id=i+"_"+j;
+			          //"<div class='boom' id='"+id+"'>"+mineArray[i][j]+"</div>"
+			          if(mineArray[i][j] == -1){
+			          	 block+="<div class='box boom' id='"+id+"'></div>"
+			          }else{
+			          	 block+="<div class='box' id='"+id+"'></div>"
+			          }
+	                            
+			        }
+			    } 
+			    block+="<div class='endding'>";
+			    block+="<div class='mask'></div>";
+			    block+="<div class='result'></div>";
+			    var blockHead='<div id="boom_Heads" class="clearfix"></div>';
+			    
+			    self.elements.append(blockHead);
+			    self.elements.append(block);
+			    self.Createhead(this.options.min,this.level);
+			    self.Css(x,y)
+			    self.canclick=true;
+
+			   
+	            return {
+	            	block:block,
+	            	mine_num:min
+	            }
+			 },
+			Createhead:function(min,level){
+				console.log(level)
+				var self = this;
+				var block='<p class="level">等级'+level+'<span></span><p>\
+				  <p class="mine">地雷<span>'+min+'</span><p>\
+				  <p class="bantch">标记<span class="flag flagIcon"></span></p>';
+				document.getElementById("boom_Heads").innerHTML = block
+				//self.elements.append(block);
+				self.elements.find("#boom_Heads").css({
+					'width':'100%',
+				})
+			},
+		    Css:function(x,y){
+				var self = this;
+				var inner_W=parseInt(document.documentElement.clientWidth||document.body.clientWidth);
+				var inner_H=parseInt(document.documentElement.clientHeight||document.body.clientHeight);
+				var head_boom=document.getElementById("boom_Heads");
+				var other_w=head_boom?head_boom.clientWidth:0;
+				var other_h=head_boom?head_boom.clientHeight:0;
+				var use_h=inner_H-other_h;
+				var use_w=inner_W;
+				var main_W,main_H,pre_W,pre_H;
+				//console.log(inner_W+":"+inner_H+":"+other_w+":"+other_h)
+				if(use_h<use_w){
+                     main_W=use_h;  
+				}else{
+					 main_W=use_w;  
+				}
+				pre_W=parseInt(main_W/x)-2;
+				pre_H=parseInt(use_h/y)-2;
+
+                var init_w=pre_W>pre_H?pre_H:pre_W
+				self.elements.css({
+			 	   'width':(init_w+2)*y+"px",
+				   'color': this.options.color,
+                   'fontSize': this.options.fontSize,
+                   'textDecoration': this.options.textDecoration
+				})
+				self.elements.find(".box").css({
+					'width':init_w+"px",
+					'height':init_w+"px",
+					'lineHeight':init_w+"px",
+				})
+				
+			 },
+			FlagClick:function(){
+			  var parents=this.elements;
+              var self = this;
+              parents.on("click",".flagIcon",function(){
+                  if(!$(this).hasClass('on')){
+                      $(this).addClass("on")
+                       self.state=2;   //红旗标记
+                       document.body.style.cursor="pointer"
+                  }
+                  // else{
+                  // 	  $(this).removeClass("on")
+                  // 	   self.state=1;  //
+                  // }
+                 
+              })
+			},
+			Flag:function(x,y){ //标记红旗 
+              var parents=this.elements;
+              var self = this;
+              var ids='#box_' + x + '_' + y+"_"+mineArray[x][y];
+              if(parents.find(ids).hasClass("flag")){
+                 parents.find(ids).removeClass("flag")
+              }else{
+              	 parents.find(ids).addClass("flag")
+                 
+              }
+              parents.find('.flagIcon').removeClass("on")
+              self.state=1;
+              document.body.style.cursor="default"
+			}, 
+			ClickEvent:function(){
+              var parents=this.elements;
+              var self = this;
+              parents.on("click","div.box",function(){
+              	if(!self.canclick){
+              		alert("不能在点击了!")
+              		return false;
+              	}
+              	var ids=$(this).attr("id");
+              	var id_Arr=ids.split("_");
+              	var cx=id_Arr[1];
+              	var cy=id_Arr[2];
+              	var inner_mine=mineArray[cx][cy];
+              	if(self.state==2){  //标记小旗子
+                   self.Flag(cx,cy);
+                   return;
+              	}
+              	if($(this).hasClass('flag')){  //有小旗子  不发生其他反应
+
+                    return  
+              	}
+              	if(inner_mine==-1){  //是雷    // 前提是没有被红旗标记
+              		$(this).addClass("boomed")
+              		// var subs=$(this).siblings(".box");
+              		// subs.each(function(index,item){
+
+              		// 	var ids=$(item).attr("id");
+              		// 	var id_Arr=ids.split("_");
+              		// 	var cx=id_Arr[1];
+              	 //        var cy=id_Arr[2];
+              	 //        var inner_mine=mineArray[cx][cy];
+                //         if(inner_mine!=-1){
+                //             $(item).text(inner_mine);
+                //         }else{
+                //         	$(item).addClass("boomed")
+                //         }
+              		// })
+              		self.showSALL();
+              		self.losing=true;	
+              		self.endDing();  
+              	}else{
+              		//this.clicked_amount+=1;
+              		if(inner_mine==0){ //选中的是附近无
+                        self.expand(cx,cy);
+                        $(this).addClass("clicked light green")
+                        self.endCalcute();
+              		}else{
+	              		$(this).addClass("clicked light")
+	              		$(this).text(inner_mine)
+	              		self.endCalcute();
+              		}
+              	}
+              })
+			}, 
+			endCalcute:function(){
+				var canClick=this.click_amout-this.options.min;
+				// console.log(this.click_amout)
+				// console.log(this.options.min)
+				// console.log(canClick)
+				// console.log($(".light").length)
+				// console.log('------------')
+	      		if(canClick==$(".light").length){
+	      		  this.winning=true;	
+	              this.endDing();
+	      		}
+			},
+			endDing:function(){
+				var parents=this.elements;
+                var self = this;
+                var str ="";
+				if(self.winning){
+
+					  str =" <div><p>"
+					  str +=showSuccess(self.level);
+					  str += "</p><p class='buttonmiddle restart nextStep'>下一关</p><div>";
+					  alert("success!")
+					  self.showSALL();  //显示结果
+					  setTimeout(function(){
+		              	
+		              },0) 
+				}
+				if(self.losing){
+					self.canclick=false;
+					 str =" <div><p>确认过眼神，不是对的人</p><p class='buttonmiddle restart'>重新开始</p><div>";
+              		alert("boom!")
+
+				}
+				parents.find(".result").html(str);  
+                parents.find(".endding").addClass("on");
+                if(parents.find('.restart')){
+                	     parents.find('.restart').click(function(){
+		                	  self.restart();
+		                 }) 
+                }
+                
+			},
+			expand:function(x,y){ //扩展选中的点 self.initx=x;  self.inity=y;
+               console.log(mineArray)
+                x = parseInt(x);
+	        	y = parseInt(y);
+		        var xMin = (x - 1 >= 0) ? x - 1 : x;
+		        var xMax = (x + 1 < this.initx) ? x + 1 : x;
+		        var yMin = (y - 1 >= 0) ? y - 1 : y;
+		        var yMax = (y + 1 < this.inity) ? y + 1 : y;
+		        console.log(x,y)
+		        console.log(y + 1,this.inity)
+		        console.log("xMin:"+xMin+",xMax:"+xMax+",yMin:"+yMin+",yMax:"+yMax)
+		        //this.log('expand:' + x + ' ' + y);
+		        d = $('#box_' + x + '_' + y+"_"+mineArray[x][y]);
+                var ids='#box_' + x + '_' + y+"_"+mineArray[x][y];
+                var as=mineArray[x][y];
+		        if (mineArray[x][y] > 0) {
+		            d.text(mineArray[x][y]);
+		            d.addClass("clicked light")
+		            return;
+		        }else{
+		        	d.addClass("clicked light green")
+		        }
+		        for (var i = xMin; i <= xMax; i++) {
+		            for (var j = yMin; j <= yMax; j++) {
+		            	var d = $('#box_' + i + '_' + j+"_"+mineArray[i][j]);
+                        var hadValidate = this.validas('clicked',d.attr('class'));
+		                if (!hadValidate && mineArray[i][j] >= 0) {
+		                    this.expand(i, j);
+		                }
+		            }
+		        }	
+			},
+			validas:function(str,pstr){ // 验证是否被点击过
+				var patt1 = new RegExp(str);
+				var result = patt1.test(pstr);
+			    //console.log(str+":"+pstr)
+				return result
+			},
+			showSALL:function(){
+				this.elements.find("#boom_block div.box").each(function(index,item){
+				    var ids=$(item).attr("id");
+          			var id_Arr=ids.split("_");
+          			var cx=id_Arr[1];
+          	        var cy=id_Arr[2];
+          	        var inner_mine=mineArray[cx][cy];
+                    if(inner_mine!=-1){
+                        $(item).text(inner_mine);
+                    }else{
+                    	$(item).addClass("boomed")
+                    }	
+				})
+			}
+
+		}
+	//在插件中使用plugin对象
+	$.fn.landmine_create=function(options){
+		//创建实体
+		var landmine2=new landmine(this,options);
+		return landmine2
+	 }
+})(jQuery,window,document);	
+
+function showSuccess(level){
+   var x = "";
+   switch (level){
+   	   case 1:
+   	     x = '恭喜您成功完成第1级，加油哦！';
+   	     break;
+   	   case 2:
+   	     x = '哇哦，完成第2级了哟，继续加油哦！';
+   	     break; 
+   	   case 3:
+   	     x = '不错嘛，攻破第3级了呢，我看好你哦！';
+   	     break;     
+   	   default:
+         x = '哇哦，第'+level+'级了哟，保持住！';
+   }
+   return x
+}
+;(function(){
+        var isTouch = ('ontouchstart' in document.documentElement) ? 'touchstart' : 'click', _on = $.fn.on;
+        $.fn.on = function(){
+                arguments[0] = (arguments[0] === 'click') ? isTouch: arguments[0];
+                //console.log(arguments[0])
+                return _on.apply(this, arguments);
+        };
+})();
+</script>
+</html>
