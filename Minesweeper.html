@@ -413,8 +413,9 @@ $(function(){
               if(parents.find(ids).hasClass("flag")){
                  parents.find(ids).removeClass("flag")
               }else{
-              	 parents.find(ids).addClass("flag")
-                 
+              	 if(!parents.find(ids).hasClass("clicked")){
+                       parents.find(ids).addClass("flag")
+              	 }
               }
               parents.find('.flagIcon').removeClass("on")
               self.state=1;
