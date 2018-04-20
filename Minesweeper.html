@@ -273,7 +273,7 @@ $(function(){
 				self.elements.empty()
 			   if(!min){
 					min=Math.floor(Math.random(x*y/2)+x*y/4)
-					min=Math.round(x*y*0.2)
+					min=Math.round(x*y*0.15)
 				}
 				this.options.min=min;
 				this.mine_amout=min;
@@ -398,11 +398,11 @@ $(function(){
                       $(this).addClass("on")
                        self.state=2;   //红旗标记
                        document.body.style.cursor="pointer"
+                  }else{
+                  	  $(this).removeClass("on")
+                  	   self.state=1;  //
+                  	   document.body.style.cursor="default"
                   }
-                  // else{
-                  // 	  $(this).removeClass("on")
-                  // 	   self.state=1;  //
-                  // }
                  
               })
 			},
